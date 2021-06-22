@@ -5,11 +5,14 @@ import store from './store';
 import './bootstrap.min.css';
 import './index.css';
 import App from './App';
+import LanguageContext from './components/LanguageContext';
 import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <LanguageContext>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </LanguageContext>,
   document.getElementById('root')
 );
 

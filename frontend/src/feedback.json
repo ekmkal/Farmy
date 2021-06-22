@@ -1,14 +1,17 @@
 [
     {
     "name": "Noer",
-    "feedback":"Love their frozen options! So convenient when you come back late from work and can't be bother cooking. 10x better than other companies"
+    "feedbackEn":"Love their frozen options! So convenient when you come back late from work and can't be bother cooking. 10x better than other companies",
+    "feedbackNl":"Ik hou van hun bevroren opties! Zo handig als je laat terugkomt van je werk en geen zin hebt om te koken. 10x beter dan andere bedrijven"
 },
 {
     "name":"Merle",
-    "feedback":"I especially like the frozen food for busy nights where I just don't have the time to prepare and cook"
+    "feedbackEn":"I especially like the frozen food for busy nights where I just don't have the time to prepare and cook",
+    "feedbackNl":"Ik hou vooral van diepvriesproducten voor drukke avonden waar ik gewoon geen tijd heb om me voor te bereiden en te koken"
 },
 {
     "name":"Nataliia",
-    "feedback":"Great meals! Loads of tasty vegan options. Love that they don't include processed carbs and instead are replaced by healthy alternatives"
+    "feedbackEn":"Great meals! Loads of tasty vegan options. Love that they don't include processed carbs and instead are replaced by healthy alternatives",
+    "feedbackNl":"Geweldige maaltijden! Tal van smakelijke veganistische opties. Ik vind het geweldig dat ze geen bewerkte koolhydraten bevatten en in plaats daarvan worden vervangen door gezonde alternatieven"
 }
 ]

@@ -1,17 +1,23 @@
 [
     {
         "image":"https://i.ibb.co/PjZM7wg/This-is-a-wide-variety-of-fresh-vegetables-and-fruits.jpg",
-        "heading":"Support your locals",
-        "description":"A lot of products are produced locally. We want to make sure you eat healthy, and pay less."
+        "headingEn":"Support your locals",
+        "descriptionEn":"A lot of products are produced locally. We want to make sure you eat healthy, and pay less.",
+        "headingNl":"Steun uw lokale bevolking",
+        "descriptionNl":"Veel producten worden lokaal geproduceerd. We willen ervoor zorgen dat u gezond eet en minder betaalt."
     },
     {
         "image":"https://i.ibb.co/T13LjFr/chef-demo-cooking-saucing-dish.jpg",
-        "heading":"Healthy & hand-crafted",
-        "description":"The healthy eating you deserve straight from your freezer. 100% taste. Zero faff necessary."
+        "headingEn":"Healthy & hand-crafted",
+        "descriptionEn":"The healthy eating you deserve straight from your freezer. 100% taste. Zero faff necessary.",
+        "headingNl":"Gezond & handgemaakt",
+        "descriptionNl":"Het gezonde eten dat u verdient, rechtstreeks uit uw vriezer. 100% smaak. Nul faff nodig."
     },
     {
         "image":"https://i.ibb.co/zs7x1kR/download.png",
-        "heading":"Next day delivery",
-        "description":"Sustainable packaging keeps everything cool for up to 24 hours, order by 9pm. Flash frozen and delivered in a flash."
+        "headingEn":"Next day delivery",
+        "descriptionEn":"Sustainable packaging keeps everything cool for up to 24 hours, order by 9pm. Flash frozen and delivered in a flash.",
+        "headingNl":"Volgende dag geleverd",
+        "descriptionNl":"Duurzame verpakkingen houden alles tot 24 uur koel, bestel voor 21.00 uur. Flash bevroren en in een flits geleverd."
     }
 ]

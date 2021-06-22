@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -6,9 +6,13 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 import ReactGA from 'react-ga';
+import { Context } from '../components/LanguageContext';
+import { FormattedMessage } from 'react-intl';
 const { REACT_APP_GUA_ID } = process.env;
 
 const Header = () => {
+  const context = useContext(Context);
+
   const dispatch = useDispatch();
   ReactGA.initialize(REACT_APP_GUA_ID);
 
@@ -142,6 +146,16 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+
+              <select value={context.messages} onChange={context.setLanguage}>
+                <FormattedMessage id="header.langEng" defaultMessage="English">
+                  {(msg) => <option value="English">{msg}</option>}
+                </FormattedMessage>
+                <FormattedMessage id="header.langDutch" defaultMessage="Dutch">
+                  {(msg) => <option value="Dutch">{msg}</option>}
+                </FormattedMessage>
+              </select>
+
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
                   <LinkContainer to="/admin/userlist">
