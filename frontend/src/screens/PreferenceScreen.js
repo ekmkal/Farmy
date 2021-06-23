@@ -7,6 +7,7 @@ import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import ProfileEditTabs from '../components/ProfileEditTabs';
 import FormContainer from '../components/FormContainer';
+import { FormattedMessage } from 'react-intl';
 
 const PreferenceScreen = ({ history }) => {
   const [diet, setDiet] = useState('');
@@ -86,7 +87,11 @@ const PreferenceScreen = ({ history }) => {
   return (
     <FormContainer>
       <ProfileEditTabs profile subscriptions preferences />
-      {success && <Message variant="success">Preferences Updated</Message>}
+      {success && (
+        <Message variant="success">
+          <FormattedMessage id="preferenceScreen.updateMsg" defaultMessage="Preferences Updated" />
+        </Message>
+      )}
 
       {loading ? (
         <Loader />
@@ -95,16 +100,28 @@ const PreferenceScreen = ({ history }) => {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group>
-            <h6>Choose your favorite diet</h6>
+            <h6>
+              <FormattedMessage
+                id="preferenceScreen.heading.diet"
+                defaultMessage="Choose your favorite diet"
+              />
+            </h6>
             <Form.Control
               as="select"
               onChange={(e) => setDiet(e.target.value)}
               value={diet || ''}
               className="inputBG"
             >
-              <option value="" disabled={diet !== ''}>
-                Choose a diet..
-              </option>
+              <FormattedMessage
+                id="preferenceScreen.placeholder.diet"
+                defaultMessage="Choose a diet"
+              >
+                {(msg) => (
+                  <option value="" disabled={diet !== ''}>
+                    {msg}..
+                  </option>
+                )}
+              </FormattedMessage>
               {diets.map((x, index) => (
                 <option key={index} value={x}>
                   {x}
@@ -113,16 +130,28 @@ const PreferenceScreen = ({ history }) => {
             </Form.Control>
           </Form.Group>
           <Form.Group>
-            <h6>What is your cooking skill level?</h6>
+            <h6>
+              <FormattedMessage
+                id="preferenceScreen.heading.skill"
+                defaultMessage="What is your cooking skill level?"
+              />
+            </h6>
             <Form.Control
               className="inputBG"
               as="select"
               onChange={(e) => setCookingSkill(e.target.value)}
               value={cookingSkill || ''}
             >
-              <option value="" disabled={cookingSkill !== ''}>
-                Choose a level..
-              </option>
+              <FormattedMessage
+                id="preferenceScreen.placeholder.skill"
+                defaultMessage="Choose a level"
+              >
+                {(msg) => (
+                  <option value="" disabled={cookingSkill !== ''}>
+                    {msg}..
+                  </option>
+                )}
+              </FormattedMessage>
               {cookingSkills.map((x, index) => (
                 <option key={index} value={x}>
                   {x}
@@ -132,16 +161,28 @@ const PreferenceScreen = ({ history }) => {
           </Form.Group>
 
           <Form.Group>
-            <h6>How much time for cooking?</h6>
+            <h6>
+              <FormattedMessage
+                id="preferenceScreen.heading.cookingTime"
+                defaultMessage="How much time for cooking?"
+              />
+            </h6>
             <Form.Control
               className="inputBG"
               as="select"
               onChange={(e) => setCookingTime(e.target.value)}
               value={cookingTime || ''}
             >
-              <option value="" disabled={cookingTime !== ''}>
-                Choose a duration..
-              </option>
+              <FormattedMessage
+                id="preferenceScreen.placeholder.cookingTime"
+                defaultMessage="Choose a duration"
+              >
+                {(msg) => (
+                  <option value="" disabled={cookingTime !== ''}>
+                    {msg}..
+                  </option>
+                )}
+              </FormattedMessage>
               {cookingDurations.map((x, index) => (
                 <option key={index} value={x}>
                   {x}
@@ -150,7 +191,12 @@ const PreferenceScreen = ({ history }) => {
             </Form.Control>
           </Form.Group>
           <Form.Group>
-            <h6>Select your favorite cuisines</h6>
+            <h6>
+              <FormattedMessage
+                id="preferenceScreen.heading.cuisine"
+                defaultMessage="Select your favorite cuisines"
+              />
+            </h6>
             {cuisines.map((x, index) => (
               <Form.Check
                 className="inputBG"
@@ -166,7 +212,7 @@ const PreferenceScreen = ({ history }) => {
           </Form.Group>
 
           <Button type="submit" variant="primary">
-            Update
+            <FormattedMessage id="preferenceScreen.form.button" defaultMessage="Update" />
           </Button>
         </Form>
       )}

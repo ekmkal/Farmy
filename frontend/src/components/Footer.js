@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import ReactGA from 'react-ga';
+import { FormattedMessage } from 'react-intl';
 const { REACT_APP_GUA_ID } = process.env;
 
 const Footer = () => {
@@ -17,7 +18,9 @@ const Footer = () => {
     <footer>
       <Container>
         <Row>
-          <Col className="text-center py-3">Copyright &copy; Farmy</Col>
+          <Col className="text-center py-3">
+            <FormattedMessage id="footer.footer" defaultMessage="Copyright" /> &copy; Farmy
+          </Col>
         </Row>
       </Container>
     </footer>

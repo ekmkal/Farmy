@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import Rating from './Rating';
 import { Row, Col, Container, Card } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 const PersonalizedRecommendations = ({ preferences }) => {
   const bundleList = useSelector((state) => state.bundleList);
@@ -23,7 +23,16 @@ const PersonalizedRecommendations = ({ preferences }) => {
             }}
           >
             <h3>
-              Chosen for you based on your <Link to="/preferences">preferences</Link>
+              <FormattedMessage
+                id="personalizedRecommendation.header"
+                defaultMessage="Chosen for you based on your"
+              />{' '}
+              <Link to="/preferences">
+                <FormattedMessage
+                  id="personalizedRecommendation.preferences"
+                  defaultMessage="preferences"
+                />
+              </Link>
             </h3>
           </Col>
 
