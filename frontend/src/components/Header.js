@@ -108,7 +108,8 @@ const Header = () => {
               {userInfo && !userInfo.isAdmin && (
                 <LinkContainer to="/preferences">
                   <Nav.Link>
-                    <i className="fas fa-utensils"></i> Preferences
+                    <i className="fas fa-utensils"></i>{' '}
+                    <FormattedMessage id="header.preference" defaultMessage="Preferences" />
                     {userInfo.preferences?.diet === '' ? (
                       <sup>
                         <span className="badge badge-danger rounded-pill "> &middot; </span>
@@ -122,27 +123,37 @@ const Header = () => {
               {userInfo && !userInfo.isAdmin && (
                 <LinkContainer to="/subscriptions">
                   <Nav.Link onClick={gaPlanEvent}>
-                    <i className="fas fa-calendar-alt"></i> Plan
+                    <i className="fas fa-calendar-alt"></i>{' '}
+                    <FormattedMessage id="header.plan" defaultMessage="Plan" />
                   </Nav.Link>
                 </LinkContainer>
               )}
               <LinkContainer to="/cart">
                 <Nav.Link onClick={gaCartEvent}>
-                  <i className="fas fa-shopping-cart"></i> Cart
+                  <i className="fas fa-shopping-cart"></i>{' '}
+                  <FormattedMessage id="header.cart" defaultMessage="Cart" />
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title="Account" id="account">
+                <NavDropdown
+                  title={<FormattedMessage id="header.account" defaultMessage="Account" />}
+                  id="account"
+                >
                   <NavDropdown.Item disabled>{userInfo.name}</NavDropdown.Item>
                   <LinkContainer to="/profile">
-                    <NavDropdown.Item onClick={gaProfileEvent}>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={gaProfileEvent}>
+                      <FormattedMessage id="header.dropdown.profile" defaultMessage="Profile" />
+                    </NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    <FormattedMessage id="header.dropdown.logout" defaultMessage="Logout" />
+                  </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link onClick={gaLoginEvent}>
-                    <i className="fas fa-user"></i> Sign In
+                    <i className="fas fa-user"></i>{' '}
+                    <FormattedMessage id="header.dropdown.signin" defaultMessage="Sign In" />
                   </Nav.Link>
                 </LinkContainer>
               )}
