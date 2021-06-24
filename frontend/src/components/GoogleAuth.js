@@ -3,6 +3,7 @@ import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { authGoogle } from '../actions/userActions';
 import GoogleButton from 'react-google-button';
+import { FormattedMessage } from 'react-intl';
 
 const GoogleAuth = ({ apiKey, registerEvent }) => {
   const dispatch = useDispatch();
@@ -14,7 +15,26 @@ const GoogleAuth = ({ apiKey, registerEvent }) => {
 
   return (
     <div>
-      <GoogleLogin
+      <FormattedMessage id="googleAuth.button" defaultMessage="Continue with">
+        {(msg) => (
+          <GoogleLogin
+            clientId={apiKey}
+            render={(renderProps) => (
+              <GoogleButton
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                label={`${msg} Google`}
+                style={{ width: '32.8rm', border: 'none' }}
+              />
+            )}
+            onSuccess={responseSuccessGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
+        )}
+      </FormattedMessage>
+
+      {/* Without translation is below */}
+      {/* <GoogleLogin
         clientId={apiKey}
         render={(renderProps) => (
           <GoogleButton
@@ -26,7 +46,7 @@ const GoogleAuth = ({ apiKey, registerEvent }) => {
         )}
         onSuccess={responseSuccessGoogle}
         cookiePolicy={'single_host_origin'}
-      />
+      /> */}
     </div>
   );
 };

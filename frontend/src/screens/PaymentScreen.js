@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { savePaymentMethod } from '../actions/cartActions';
+import { FormattedMessage } from 'react-intl';
 
 const PaymentScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
@@ -26,25 +27,33 @@ const PaymentScreen = ({ history }) => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
-      <h1>Payment Method</h1>
+      <h1>
+        <FormattedMessage id="paymentScreen.payment" defaultMessage="Payment Method" />
+      </h1>
       <Form onSubmit={submitHandler}>
         <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
+          <Form.Label as="legend">
+            <FormattedMessage id="paymentScreen.method" defaultMessage="Select Method" />
+          </Form.Label>
           <Col>
-            <Form.Check
-              type="radio"
-              label="PayPal or Credit Card"
-              id="PayPal"
-              name="paymentMethod"
-              value="PayPal"
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
+            <FormattedMessage id="paymentScreen.or" defaultMessage="or">
+              {(msg) => (
+                <Form.Check
+                  type="radio"
+                  label={`PayPal ${msg} Credit Card`}
+                  id="PayPal"
+                  name="paymentMethod"
+                  value="PayPal"
+                  checked
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                ></Form.Check>
+              )}
+            </FormattedMessage>
           </Col>
         </Form.Group>
 
         <Button type="submit" variant="primary">
-          Continue
+          <FormattedMessage id="paymentScreen.continue" defaultMessage="Contiue" />
         </Button>
       </Form>
     </FormContainer>

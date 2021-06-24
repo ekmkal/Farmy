@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,8 +6,12 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listMySubscriptions, cancelSubscription } from '../actions/subscriptionActions';
 import ProfileEditTabs from '../components/ProfileEditTabs';
+import { Context } from '../components/LanguageContext';
+import { FormattedMessage } from 'react-intl';
 
 const SubscriptionListScreen = ({ history }) => {
+  const { lang } = useContext(Context);
+
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
@@ -44,6 +48,23 @@ const SubscriptionListScreen = ({ history }) => {
     }
   }, [dispatch, userInfo, history, success, cancelSuccess, user]);
 
+  const renderContentWithLang = () => {
+    switch (lang) {
+      case 'English':
+        return `You have ${subscriptions.length} active ${
+          subscriptions.length === 1 ? 'subscription' : 'subscriptions'
+        }`;
+      case 'Dutch':
+        return `Je hebt ${subscriptions.length} actieve ${
+          subscriptions.length === 1 ? 'abonnement' : 'abonnementen'
+        }`;
+      default:
+        return `You have ${subscriptions.length} active ${
+          subscriptions.length === 1 ? 'subscription' : 'subscriptions'
+        }`;
+    }
+  };
+
   return (
     <>
       <ProfileEditTabs profile subscriptions preferences />
@@ -54,19 +75,32 @@ const SubscriptionListScreen = ({ history }) => {
         <Message variant="danger">{errorSubscriptions}</Message>
       ) : (
         <>
-          <h2>
-            you have {subscriptions.length} active{' '}
-            {subscriptions.length === 1 ? 'subscription' : 'subscriptions'}{' '}
-          </h2>
+          <h2>{renderContentWithLang()}</h2>
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th></th>
-                <th>BUNDLES</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>Bundle Details</th>
-                <th>CANCEL</th>
+                <th>
+                  <FormattedMessage
+                    id="subscriptionListScreen.th.bundles"
+                    defaultMessage="BUNDLES"
+                  />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriptionListScreen.th.date" defaultMessage="DATE" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriptionListScreen.th.total" defaultMessage="TOTAL" />
+                </th>
+                <th>
+                  <FormattedMessage
+                    id="subscriptionListScreen.th.bundleDetails"
+                    defaultMessage="Bundle Details"
+                  />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriptionListScreen.th.cancel" defaultMessage="CANCEL" />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -84,7 +118,12 @@ const SubscriptionListScreen = ({ history }) => {
                   <td>{subscription.totalPrice}</td>
                   <td>
                     <LinkContainer to={`/register/bundleplan`}>
-                      <Button>Change</Button>
+                      <Button>
+                        <FormattedMessage
+                          id="subscriptionListScreen.changeButton"
+                          defaultMessage="Change"
+                        />
+                      </Button>
                     </LinkContainer>
                   </td>
 

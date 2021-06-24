@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createSubscription } from '../actions/subscriptionActions';
+import { FormattedMessage } from 'react-intl';
 import { SUBSCRIPTION_CREATE_RESET } from '../constants/subscriptionConstants';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 
@@ -67,24 +68,46 @@ const PlaceSubscriptionScreen = ({ history }) => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>
+                <FormattedMessage id="placeSubscriptionScreen.shipping" defaultMessage="Shipping" />
+              </h2>
               <p>
-                <strong>Address:</strong>
+                <strong>
+                  <FormattedMessage id="placeSubscriptionScreen.address" defaultMessage="Address" />
+                  :
+                </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}
                 {cart.shippingAddress.postalCode},{cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment Method</h2>
-              <strong>Method: </strong>
+              <h2>
+                <FormattedMessage
+                  id="placeSubscriptionScreen.paymentMethod"
+                  defaultMessage="Payment Method"
+                />
+              </h2>
+              <strong>
+                <FormattedMessage id="placeSubscriptionScreen.method" defaultMessage="Method" />:{' '}
+              </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2>
+                <FormattedMessage
+                  id="placeSubscriptionScreen.orderItems"
+                  defaultMessage="Order Items"
+                />
+              </h2>
               {cart.cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+                <Message>
+                  <FormattedMessage
+                    id="placeSubscriptionScreen.emptyCart"
+                    defaultMessage="Your Cart Is Empty"
+                  />
+                </Message>
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
@@ -97,7 +120,16 @@ const PlaceSubscriptionScreen = ({ history }) => {
                           <Link to={`/bundles/${item.product}`}>{item.name}</Link>
                         </Col>
                         <Col md={6}>
-                          {item.qty} bundles x €{item.price} x {item.orderFrq} times every{' '}
+                          {item.qty}{' '}
+                          <FormattedMessage
+                            id="placeSubscriptionScreen.bundles"
+                            defaultMessage="bundles"
+                          />{' '}
+                          x €{item.price} x {item.orderFrq}{' '}
+                          <FormattedMessage
+                            id="placeSubscriptionScreen.timesEvery"
+                            defaultMessage="times every"
+                          />{' '}
                           {item.orderPer}= €{item.qty * item.price * item.orderFrq}
                         </Col>
                       </Row>
@@ -112,29 +144,45 @@ const PlaceSubscriptionScreen = ({ history }) => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>
+                  <FormattedMessage
+                    id="placeSubscriptionScreen.orderSummary"
+                    defaultMessage="Order Summary"
+                  />
+                </h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
+                  <Col>
+                    <FormattedMessage id="placeSubscriptionScreen.items" defaultMessage="Items" />
+                  </Col>
                   <Col>€{cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
+                  <Col>
+                    <FormattedMessage
+                      id="placeSubscriptionScreen.shipping"
+                      defaultMessage="Shipping"
+                    />
+                  </Col>
                   <Col>€{cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Tax</Col>
+                  <Col>
+                    <FormattedMessage id="placeSubscriptionScreen.tax" defaultMessage="Tax" />
+                  </Col>
                   <Col>€{cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Total</Col>
+                  <Col>
+                    <FormattedMessage id="placeSubscriptionScreen.total" defaultMessage="Total" />
+                  </Col>
                   <Col>€{cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
@@ -148,7 +196,10 @@ const PlaceSubscriptionScreen = ({ history }) => {
                   disabled={cart.cartItems === 0}
                   onClick={placeSubscriptionHandler}
                 >
-                  Place Order
+                  <FormattedMessage
+                    id="placeSubscriptionScreen.placeOrder"
+                    defaultMessage="Place Order"
+                  />
                 </Button>
               </ListGroup.Item>
             </ListGroup>

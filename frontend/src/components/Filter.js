@@ -32,7 +32,6 @@ const Filter = ({ keyword }) => {
     { value: 'Mediterranean', nl: 'Mediterraan' },
   ];
 
-  // const ratingsArray = ['Any', 1, 2, 3, 4, 5];
   const ratingsArray = [
     { value: 'Any', nl: 'Ieder' },
     { value: 1, nl: 1 },

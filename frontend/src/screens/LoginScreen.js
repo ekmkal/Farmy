@@ -11,6 +11,7 @@ import FacebookAuth from '../components/FacebookAuth';
 import { login } from '../actions/userActions';
 import useEventGaTracker from '../hooks/useEventGaTracker';
 import ReactGA from 'react-ga';
+import { FormattedMessage } from 'react-intl';
 const { REACT_APP_GUA_ID } = process.env;
 
 const LoginScreen = ({ location, history }) => {
@@ -67,34 +68,48 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <h1>
+        <FormattedMessage id="loginScreen.signIn" defaultMessage="Sign In" />
+      </h1>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form className="mb-2" onSubmit={submitHandler}>
         <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="loginScreen.email" defaultMessage="Email Address" />
+          </Form.Label>
+          <FormattedMessage id="loginScreen.emailPlaceholder" defaultMessage="Enter email">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="email"
+                placeholder={msg}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="loginScreen.password" defaultMessage="Password" />
+          </Form.Label>
+          <FormattedMessage id="loginScreen.passwordPlaceholder" defaultMessage="Enter password">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="password"
+                placeholder={msg}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Button type="submit" variant="primary" className="mt-2 btn btn-block">
-          Sign In
+          <FormattedMessage id="loginScreen.signIn" defaultMessage="Sign In" />
         </Button>
       </Form>
 
@@ -117,12 +132,12 @@ const LoginScreen = ({ location, history }) => {
 
       <Row className="py-3">
         <Col>
-          New Customer?{' '}
+          <FormattedMessage id="loginScreen.newCustomer" defaultMessage="New Customer" />?{' '}
           <Link
             to={redirect ? `/register?redirect=${redirect}` : '/register'}
             onClick={gaRegisterEvent}
           >
-            Register
+            <FormattedMessage id="loginScreen.register" defaultMessage="Register" />
           </Link>
         </Col>
       </Row>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -8,8 +8,11 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import ProfileEditTabs from '../components/ProfileEditTabs';
 import FormContainer from '../components/FormContainer';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
 
 const PreferenceScreen = ({ history }) => {
+  const { lang } = useContext(Context);
+
   const [diet, setDiet] = useState('');
   const [cookingSkill, setCookingSkill] = useState('');
   const [cuisine, setCuisine] = useState([]);
@@ -65,24 +68,44 @@ const PreferenceScreen = ({ history }) => {
     }
   };
 
-  const diets = ['Vegetarian', 'Vegan', 'Mediterranean', 'Low-carb'];
-  const cookingSkills = ['Beginner', 'Regular', 'Pro'];
+  const diets = [
+    { value: 'Vegetarian', nl: 'Vegetarisch' },
+    { value: 'Vegan', nl: 'Veganistisch' },
+    { value: 'Mediterranean', nl: 'Mediterraan' },
+    { value: 'Low-carb', nl: 'Koolhydraatarm' },
+  ];
+  const cookingSkills = [
+    { value: 'Beginner', nl: 'Beginner' },
+    { value: 'Regular', nl: 'Regelmatig' },
+    { value: 'Pro', nl: 'Pro' },
+  ];
   const cuisines = [
-    'Greek',
-    'Japanese',
-    'Caribbean',
-    'Vietnamese',
-    'Mexican',
-    'Thai',
-    'Korean',
-    'Indian',
-    'Italian',
+    { value: 'Greek', nl: 'Grieks' },
+    { value: 'Japanese', nl: 'Japans' },
+    { value: 'Caribbean', nl: 'Caribisch' },
+    { value: 'Vietnamese', nl: 'Vietnamese' },
+    { value: 'Mexican', nl: 'Mexicaans' },
+    { value: 'Thai', nl: 'Thais' },
+    { value: 'Korean', nl: 'Koreaans' },
+    { value: 'Indian', nl: 'Indisch' },
+    { value: 'Italian', nl: 'Italiaans' },
   ];
   const cookingDurations = [
-    'Less than 20 minutes',
-    'From 20 to 40 minutes',
-    'More than 45 minutes',
+    { value: 'Less than 20 minutes', nl: 'Minder dan 20 minuten' },
+    { value: 'From 20 to 40 minutes', nl: 'Van 20 tot 40 minuten' },
+    { value: 'More than 45 minutes', nl: 'Meer dan 45 minuten' },
   ];
+
+  const renderContentWithLang = (contentObject) => {
+    switch (lang) {
+      case 'English':
+        return contentObject.value;
+      case 'Dutch':
+        return contentObject.nl;
+      default:
+        return contentObject.value;
+    }
+  };
 
   return (
     <FormContainer>
@@ -123,8 +146,8 @@ const PreferenceScreen = ({ history }) => {
                 )}
               </FormattedMessage>
               {diets.map((x, index) => (
-                <option key={index} value={x}>
-                  {x}
+                <option key={index} value={x.value}>
+                  {renderContentWithLang(x)}
                 </option>
               ))}
             </Form.Control>
@@ -153,8 +176,8 @@ const PreferenceScreen = ({ history }) => {
                 )}
               </FormattedMessage>
               {cookingSkills.map((x, index) => (
-                <option key={index} value={x}>
-                  {x}
+                <option key={index} value={x.value}>
+                  {renderContentWithLang(x)}
                 </option>
               ))}
             </Form.Control>
@@ -184,8 +207,8 @@ const PreferenceScreen = ({ history }) => {
                 )}
               </FormattedMessage>
               {cookingDurations.map((x, index) => (
-                <option key={index} value={x}>
-                  {x}
+                <option key={index} value={x.value}>
+                  {renderContentWithLang(x)}
                 </option>
               ))}
             </Form.Control>
@@ -202,10 +225,10 @@ const PreferenceScreen = ({ history }) => {
                 className="inputBG"
                 key={index}
                 type="checkbox"
-                id={x}
-                label={x}
-                value={x}
-                checked={cuisine.includes(x)}
+                id={x.value}
+                label={renderContentWithLang(x)}
+                value={x.value}
+                checked={cuisine.includes(x.value)}
                 onChange={(e) => handleCheck(e.target.value)}
               />
             ))}

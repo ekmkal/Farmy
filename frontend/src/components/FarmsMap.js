@@ -7,6 +7,7 @@ import { listFarms } from '../actions/farmActions';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import '../index.css';
+import { FormattedMessage } from 'react-intl';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
@@ -82,7 +83,10 @@ const FarmsMap = () => {
             <div>
               <h5>{farmInfo.name}</h5>
               <p>{farmInfo.description}</p>
-              <small>Contact by: {farmInfo.number}</small>
+              <small>
+                <FormattedMessage id="farmsMap.contactBy" defaultMessage="Contact by" />:{' '}
+                {farmInfo.number}
+              </small>
             </div>
           </Popup>
         )}
