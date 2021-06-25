@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
 
 const CartScreen = ({ match, location, history }) => {
+  const { lang } = useContext(Context);
+
   const bundleId = match.params.id;
   const [qty, setQty] = useState(
     location.search ? Number(location.search.slice(1).split('&')[0].split('=')[1]) : 1
@@ -19,7 +23,15 @@ const CartScreen = ({ match, location, history }) => {
     location.search ? location.search.slice(1).split('&')[2].split('=')[1] : 'Weekly'
   );
 
-  const arrayOfTime = ['Weekly', 'Every-2-Weeks', 'Monthly'];
+  const [orderPerInLang, setOrderPerInLang] = useState(
+    location.search ? location.search.slice(1).split('&')[2].split('=')[1] : 'Weekly'
+  );
+
+  const arrayOfTime = [
+    { value: 'Weekly', nl: 'Wekelijks' },
+    { value: 'Every-2-Weeks', nl: 'Elke-2-weken' },
+    { value: 'Monthly', nl: 'Maandelijks' },
+  ];
   const arrayOfFrequencyWeekly = [1, 2, 3];
   const arrayOfFrequencyTwoWeeks = [1, 2, 3, 4];
 
@@ -44,13 +56,29 @@ const CartScreen = ({ match, location, history }) => {
     history.push('/login?redirect=shipping');
   };
 
+  const renderContentWithLang = (contentObject) => {
+    switch (lang) {
+      case 'English':
+        return contentObject.value;
+      case 'Dutch':
+        return contentObject.nl;
+      default:
+        return contentObject.value;
+    }
+  };
+
   return (
     <Row>
       <Col md={12} className="my-3">
-        <h1>Shopping Cart</h1>
+        <h1>
+          <FormattedMessage id="cartScreen.header" defaultMessage="Shopping Cart" />
+        </h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your cart is empty <Link to="/">Go Back</Link>
+            <FormattedMessage id="cartScreen.emptyMsg" defaultMessage="Your cart is empty" />{' '}
+            <Link to="/">
+              <FormattedMessage id="cartScreen.goBack" defaultMessage="Go Back" />
+            </Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
@@ -78,21 +106,32 @@ const CartScreen = ({ match, location, history }) => {
                         </option>
                       ))}
                     </Form.Control>
-                    <small>Quantity</small>
+                    <small>
+                      <FormattedMessage id="cartScreen.quantity" defaultMessage="Quantity" />
+                    </small>
                   </Col>
                   <Col md={3}>
                     <Form.Control
                       as="select"
                       value={item.orderPer}
-                      onChange={(e) => setOrderPer(e.target.value)}
+                      onChange={(e) => {
+                        setOrderPer(e.target.value);
+                        setOrderPerInLang(
+                          renderContentWithLang(
+                            arrayOfTime.filter((x) => x.value === e.target.value)[0]
+                          )
+                        );
+                      }}
                     >
                       {arrayOfTime.map((x, index) => (
-                        <option key={index} className="signup-bundle-options" value={x}>
-                          {x}
+                        <option key={index} className="signup-bundle-options" value={x.value}>
+                          {renderContentWithLang(x)}
                         </option>
                       ))}
                     </Form.Control>
-                    <small>How Often</small>
+                    <small>
+                      <FormattedMessage id="cartScreen.howOften" defaultMessage="How Often" />
+                    </small>
                   </Col>
                   <Col md={1.5}>
                     <Form.Control
@@ -113,7 +152,9 @@ const CartScreen = ({ match, location, history }) => {
                           </option>
                         ))}
                     </Form.Control>
-                    <small>Per {orderPer}</small>
+                    <small>
+                      <FormattedMessage id="cartScreen.per" defaultMessage="Per" /> {orderPerInLang}
+                    </small>
                   </Col>
                   <Col md={1}>
                     <Button
@@ -135,9 +176,9 @@ const CartScreen = ({ match, location, history }) => {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
-                Subtotal (
+                <FormattedMessage id="cartScreen.subtotal" defaultMessage="Subtotal" /> (
                 {cartItems.reduce((acc, item) => acc + Number(item.qty) + Number(item.orderFrq), 0)}
-                ) items
+                ) <FormattedMessage id="cartScreen.items" defaultMessage="items" />
               </h2>
               €
               {cartItems
@@ -151,7 +192,10 @@ const CartScreen = ({ match, location, history }) => {
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
-                Proceed To Checkout
+                <FormattedMessage
+                  id="cartScreen.proceedButton"
+                  defaultMessage="Proceed To Checkout"
+                />
               </Button>
             </ListGroup.Item>
           </ListGroup>

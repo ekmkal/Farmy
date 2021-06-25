@@ -6,6 +6,7 @@ import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { FormattedMessage } from 'react-intl';
 import {
   getSubscriptionDetails,
   paySubscription,
@@ -103,48 +104,92 @@ const SubscriptionScreen = ({ match, history, location }) => {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <h1>Order {subscription._id}</h1>
+      <h1>
+        <FormattedMessage id="subscriptionScreen.order" defaultMessage="Order" /> {subscription._id}
+      </h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>
+                <FormattedMessage id="subscriptionScreen.shipping" defaultMessage="Shipping" />
+              </h2>
               <p>
-                <strong>Name: </strong> {subscription.user.name}
+                <strong>
+                  <FormattedMessage id="subscriptionScreen.name" defaultMessage="Name" />:{' '}
+                </strong>{' '}
+                {subscription.user.name}
               </p>
               <p>
-                <strong>Email: </strong>{' '}
+                <strong>
+                  <FormattedMessage id="subscriptionScreen.email" defaultMessage="Email" />:
+                </strong>{' '}
                 <a href={`mailto:${subscription.user.email}`}>{subscription.user.email}</a>
               </p>
               <p>
-                <strong>Address:</strong>
+                <strong>
+                  <FormattedMessage id="subscriptionScreen.address" defaultMessage="Address" />:
+                </strong>
                 {subscription.shippingAddress.address}, {subscription.shippingAddress.city}{' '}
                 {subscription.shippingAddress.postalCode}, {subscription.shippingAddress.country}
               </p>
               {subscription.isDelivered ? (
-                <Message variant="success">Delivered on {subscription.deliveredAt}</Message>
+                <Message variant="success">
+                  <FormattedMessage
+                    id="subscriptionScreen.deliveredOn"
+                    defaultMessage="Delivered on"
+                  />{' '}
+                  {subscription.deliveredAt}
+                </Message>
               ) : (
-                <Message variant="danger">Not Delivered</Message>
+                <Message variant="danger">
+                  <FormattedMessage
+                    id="subscriptionScreen.notDelivered"
+                    defaultMessage="Not Delivered"
+                  />
+                </Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment Method</h2>
+              <h2>
+                <FormattedMessage
+                  id="subscriptionScreen.paymentMethod"
+                  defaultMessage="Payment Method"
+                />
+              </h2>
               <p>
-                <strong>Method: </strong>
+                <strong>
+                  <FormattedMessage id="subscriptionScreen.method" defaultMessage="Method" />:{' '}
+                </strong>
                 {subscription.paymentMethod}
               </p>
               {subscription.isPaid ? (
-                <Message variant="success">Paid on {subscription.paidAt}</Message>
+                <Message variant="success">
+                  <FormattedMessage id="subscriptionScreen.paidOn" defaultMessage="Paid on" />{' '}
+                  {subscription.paidAt}
+                </Message>
               ) : (
-                <Message variant="danger">Not Paid</Message>
+                <Message variant="danger">
+                  <FormattedMessage id="subscriptionScreen.notPaid" defaultMessage="Not Paid" />
+                </Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>subscription Items</h2>
+              <h2>
+                <FormattedMessage
+                  id="subscriptionScreen.subscriptionItems"
+                  defaultMessage="Subscription Items"
+                />
+              </h2>
               {subscription.subscriptionItems.length === 0 ? (
-                <Message>Order is empty</Message>
+                <Message>
+                  <FormattedMessage
+                    id="subscriptionScreen.orderEmpty"
+                    defaultMessage="Order is empty"
+                  />
+                </Message>
               ) : (
                 <ListGroup variant="flush">
                   {subscription.subscriptionItems.map((item, index) => (
@@ -157,8 +202,14 @@ const SubscriptionScreen = ({ match, history, location }) => {
                           <Link to={`/bundles/${item.product}`}>{item.name}</Link>
                         </Col>
                         <Col md={6}>
-                          {item.qty} bundles x €{item.price} x {item.orderFrq} every {item.orderPer}
-                          = €{item.qty * item.price * item.orderFrq}
+                          {item.qty}{' '}
+                          <FormattedMessage
+                            id="subscriptionScreen.bundles"
+                            defaultMessage="bundles"
+                          />{' '}
+                          x €{item.price} x {item.orderFrq}{' '}
+                          <FormattedMessage id="subscriptionScreen.every" defaultMessage="every" />{' '}
+                          {item.orderPer}= €{item.qty * item.price * item.orderFrq}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -172,29 +223,42 @@ const SubscriptionScreen = ({ match, history, location }) => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>
+                  <FormattedMessage
+                    id="subscriptionScreen.orderSummary"
+                    defaultMessage="Order Summary"
+                  />
+                </h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
+                  <Col>
+                    <FormattedMessage id="subscriptionScreen.items" defaultMessage="Items" />
+                  </Col>
                   <Col>€{subscription.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
+                  <Col>
+                    <FormattedMessage id="subscriptionScreen.shipping" defaultMessage="Shipping" />
+                  </Col>
                   <Col>€{subscription.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Tax</Col>
+                  <Col>
+                    <FormattedMessage id="subscriptionScreen.tax" defaultMessage="Tax" />
+                  </Col>
                   <Col>€{subscription.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Total</Col>
+                  <Col>
+                    <FormattedMessage id="subscriptionScreen.total" defaultMessage="Total" />
+                  </Col>
                   <Col>€{subscription.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>

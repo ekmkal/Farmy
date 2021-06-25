@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,10 +6,13 @@ import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createSubscription } from '../actions/subscriptionActions';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
 import { SUBSCRIPTION_CREATE_RESET } from '../constants/subscriptionConstants';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 
 const PlaceSubscriptionScreen = ({ history }) => {
+  const { lang } = useContext(Context);
+
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
@@ -59,6 +62,23 @@ const PlaceSubscriptionScreen = ({ history }) => {
         totalPrice: cart.totalPrice,
       })
     );
+  };
+
+  const arrayOfTime = [
+    { value: 'Weekly', nl: 'Wekelijks' },
+    { value: 'Every-2-Weeks', nl: 'Elke-2-weken' },
+    { value: 'Monthly', nl: 'Maandelijks' },
+  ];
+
+  const renderContentWithLang = (contentObject) => {
+    switch (lang) {
+      case 'English':
+        return contentObject.value;
+      case 'Dutch':
+        return contentObject.nl;
+      default:
+        return contentObject.value;
+    }
   };
 
   return (
@@ -130,7 +150,11 @@ const PlaceSubscriptionScreen = ({ history }) => {
                             id="placeSubscriptionScreen.timesEvery"
                             defaultMessage="times every"
                           />{' '}
-                          {item.orderPer}= €{item.qty * item.price * item.orderFrq}
+                          {/* {item.orderPer}= €{item.qty * item.price * item.orderFrq} */}
+                          {renderContentWithLang(
+                            arrayOfTime.filter((x) => x.value === item.orderPer)[0]
+                          )}{' '}
+                          = €{item.qty * item.price * item.orderFrq}
                         </Col>
                       </Row>
                     </ListGroup.Item>
