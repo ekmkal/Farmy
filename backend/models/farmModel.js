@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 const farmSchema = mongoose.Schema(
   {
     name: {
-      type: String,
+      type: Object,
       required: true,
     },
     description: {
-      type: String,
+      type: Object,
       required: true,
     },
     coordinates: {
@@ -15,7 +15,7 @@ const farmSchema = mongoose.Schema(
       required: true,
     },
     story: {
-      type: String,
+      type: Object,
       required: true,
     },
     image: {

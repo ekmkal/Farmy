@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import Loader from './Loader';
@@ -8,12 +8,16 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import '../index.css';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const FarmsMap = () => {
+  const { lang } = useContext(Context);
+
   const dispatch = useDispatch();
+
   const [viewport, setViewport] = React.useState({
     latitude: 52.0326,
     longitude: 5.2913,
@@ -44,6 +48,17 @@ const FarmsMap = () => {
       <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
     </svg>
   );
+
+  const renderContentWithLang = (contentObject) => {
+    switch (lang) {
+      case 'English':
+        return contentObject.value;
+      case 'Dutch':
+        return contentObject.nl;
+      default:
+        return contentObject.value;
+    }
+  };
 
   return (
     <div>
@@ -81,8 +96,8 @@ const FarmsMap = () => {
             onClose={() => setFarmInfo(null)}
           >
             <div>
-              <h5>{farmInfo.name}</h5>
-              <p>{farmInfo.description}</p>
+              <h5>{renderContentWithLang(farmInfo.name)}</h5>
+              <p>{renderContentWithLang(farmInfo.description)}</p>
               <small>
                 <FormattedMessage id="farmsMap.contactBy" defaultMessage="Contact by" />:{' '}
                 {farmInfo.number}

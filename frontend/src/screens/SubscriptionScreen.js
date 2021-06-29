@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
 import {
   getSubscriptionDetails,
   paySubscription,
@@ -20,6 +21,8 @@ import ReactGA from 'react-ga';
 const { REACT_APP_GUA_ID } = process.env;
 
 const SubscriptionScreen = ({ match, history, location }) => {
+  const { lang } = useContext(Context);
+
   const subscriptionId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
@@ -98,6 +101,23 @@ const SubscriptionScreen = ({ match, history, location }) => {
     dispatch(deliverSubscription(subscription));
   };
 
+  const arrayOfTime = [
+    { value: 'Weekly', nl: 'Wekelijks' },
+    { value: 'Every-2-Weeks', nl: 'Elke-2-weken' },
+    { value: 'Monthly', nl: 'Maandelijks' },
+  ];
+
+  const renderContentWithLang = (contentObject) => {
+    switch (lang) {
+      case 'English':
+        return contentObject.value;
+      case 'Dutch':
+        return contentObject.nl;
+      default:
+        return contentObject.value;
+    }
+  };
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -129,7 +149,7 @@ const SubscriptionScreen = ({ match, history, location }) => {
               <p>
                 <strong>
                   <FormattedMessage id="subscriptionScreen.address" defaultMessage="Address" />:
-                </strong>
+                </strong>{' '}
                 {subscription.shippingAddress.address}, {subscription.shippingAddress.city}{' '}
                 {subscription.shippingAddress.postalCode}, {subscription.shippingAddress.country}
               </p>
@@ -209,7 +229,11 @@ const SubscriptionScreen = ({ match, history, location }) => {
                           />{' '}
                           x €{item.price} x {item.orderFrq}{' '}
                           <FormattedMessage id="subscriptionScreen.every" defaultMessage="every" />{' '}
-                          {item.orderPer}= €{item.qty * item.price * item.orderFrq}
+                          {/* {item.orderPer}= €{item.qty * item.price * item.orderFrq} */}
+                          {renderContentWithLang(
+                            arrayOfTime.filter((x) => x.value === item.orderPer)[0]
+                          )}{' '}
+                          = €{item.qty * item.price * item.orderFrq}
                         </Col>
                       </Row>
                     </ListGroup.Item>

@@ -295,7 +295,7 @@ const BundleDetailsScreen = ({ match, history }) => {
                 defaultMessage="Meet The Farmer"
               />
             </h3>
-            {bundle.ingredients && (
+            {bundle.ingredients !== undefined && (
               <FarmDetails farmId={bundle.ingredients[0]?.farms[randomIndex]} />
             )}
           </Container>
