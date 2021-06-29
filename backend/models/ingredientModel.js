@@ -22,7 +22,7 @@ const ingredientSchema = mongoose.Schema(
       },
     ],
     name: {
-      type: String,
+      type: Object,
       required: true,
     },
     image: {
@@ -30,7 +30,7 @@ const ingredientSchema = mongoose.Schema(
       required: true,
     },
     description: {
-      type: String,
+      type: Object,
       required: true,
     },
     category: [
@@ -40,7 +40,7 @@ const ingredientSchema = mongoose.Schema(
       },
     ],
     origin: {
-      type: String,
+      type: Object,
       required: true,
       default: 'The Netherlands',
     },
@@ -57,7 +57,7 @@ const ingredientSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Ingredient = mongoose.model('Ingredient', ingredientSchema);

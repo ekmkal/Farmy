@@ -9,6 +9,7 @@ import ProfileEditTabs from '../components/ProfileEditTabs';
 import FormContainer from '../components/FormContainer';
 import { FormattedMessage } from 'react-intl';
 import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const PreferenceScreen = ({ history }) => {
   const { lang } = useContext(Context);
@@ -96,17 +97,6 @@ const PreferenceScreen = ({ history }) => {
     { value: 'More than 45 minutes', nl: 'Meer dan 45 minuten' },
   ];
 
-  const renderContentWithLang = (contentObject) => {
-    switch (lang) {
-      case 'English':
-        return contentObject.value;
-      case 'Dutch':
-        return contentObject.nl;
-      default:
-        return contentObject.value;
-    }
-  };
-
   return (
     <FormContainer>
       <ProfileEditTabs profile subscriptions preferences />
@@ -147,7 +137,7 @@ const PreferenceScreen = ({ history }) => {
               </FormattedMessage>
               {diets.map((x, index) => (
                 <option key={index} value={x.value}>
-                  {renderContentWithLang(x)}
+                  {renderWithLang(x, lang)}
                 </option>
               ))}
             </Form.Control>
@@ -177,7 +167,7 @@ const PreferenceScreen = ({ history }) => {
               </FormattedMessage>
               {cookingSkills.map((x, index) => (
                 <option key={index} value={x.value}>
-                  {renderContentWithLang(x)}
+                  {renderWithLang(x, lang)}
                 </option>
               ))}
             </Form.Control>
@@ -208,7 +198,7 @@ const PreferenceScreen = ({ history }) => {
               </FormattedMessage>
               {cookingDurations.map((x, index) => (
                 <option key={index} value={x.value}>
-                  {renderContentWithLang(x)}
+                  {renderWithLang(x, lang)}
                 </option>
               ))}
             </Form.Control>
@@ -226,7 +216,7 @@ const PreferenceScreen = ({ history }) => {
                 key={index}
                 type="checkbox"
                 id={x.value}
-                label={renderContentWithLang(x)}
+                label={renderWithLang(x, lang)}
                 value={x.value}
                 checked={cuisine.includes(x.value)}
                 onChange={(e) => handleCheck(e.target.value)}

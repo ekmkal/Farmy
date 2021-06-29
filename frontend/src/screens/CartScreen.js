@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { FormattedMessage } from 'react-intl';
 import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const CartScreen = ({ match, location, history }) => {
   const { lang } = useContext(Context);
@@ -56,17 +57,6 @@ const CartScreen = ({ match, location, history }) => {
     history.push('/login?redirect=shipping');
   };
 
-  const renderContentWithLang = (contentObject) => {
-    switch (lang) {
-      case 'English':
-        return contentObject.value;
-      case 'Dutch':
-        return contentObject.nl;
-      default:
-        return contentObject.value;
-    }
-  };
-
   return (
     <Row>
       <Col md={12} className="my-3">
@@ -86,11 +76,11 @@ const CartScreen = ({ match, location, history }) => {
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
+                    <Image src={item.image} alt={renderWithLang(item.name, lang)} fluid rounded />
                   </Col>
                   <Col md={2}>
                     <Link to={`/bundles/${item.product}`} style={{ fontSize: 'large' }}>
-                      {item.name}
+                      {renderWithLang(item.name, lang)}
                     </Link>
                   </Col>
                   <Col md={1}>€{item.price}</Col>
@@ -117,15 +107,16 @@ const CartScreen = ({ match, location, history }) => {
                       onChange={(e) => {
                         setOrderPer(e.target.value);
                         setOrderPerInLang(
-                          renderContentWithLang(
-                            arrayOfTime.filter((x) => x.value === e.target.value)[0]
+                          renderWithLang(
+                            arrayOfTime.filter((x) => x.value === e.target.value)[0],
+                            lang
                           )
                         );
                       }}
                     >
                       {arrayOfTime.map((x, index) => (
                         <option key={index} className="signup-bundle-options" value={x.value}>
-                          {renderContentWithLang(x)}
+                          {renderWithLang(x, lang)}
                         </option>
                       ))}
                     </Form.Control>

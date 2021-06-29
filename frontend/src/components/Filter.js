@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { listBundles } from '../actions/bundleActions';
 import { FormattedMessage } from 'react-intl';
 import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const Filter = ({ keyword }) => {
   const { lang } = useContext(Context);
@@ -54,17 +55,6 @@ const Filter = ({ keyword }) => {
     setSortBy(initialValue);
   };
 
-  const renderContentWithLang = (contentObject) => {
-    switch (lang) {
-      case 'English':
-        return contentObject.value;
-      case 'Dutch':
-        return contentObject.nl;
-      default:
-        return contentObject.value;
-    }
-  };
-
   return (
     <>
       <Form onSubmit={submitHandler} className="justify-content-md-center">
@@ -80,7 +70,7 @@ const Filter = ({ keyword }) => {
               >
                 {categoriesArray.map((cat) => (
                   <option key={cat.value} value={cat.value}>
-                    {renderContentWithLang(cat)}
+                    {renderWithLang(cat, lang)}
                   </option>
                 ))}
               </Form.Control>
@@ -98,7 +88,7 @@ const Filter = ({ keyword }) => {
                   {(msg) =>
                     ratingsArray.map((ratingOption) => (
                       <option key={ratingOption.value} value={ratingOption.value}>
-                        {msg}: {renderContentWithLang(ratingOption)}
+                        {msg}: {renderWithLang(ratingOption, lang)}
                       </option>
                     ))
                   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Form, ButtonGroup, Image, Button, ListGroup } from 'react-bootstrap';
@@ -8,9 +8,13 @@ import { listBundlesNewUser } from '../actions/bundleActions';
 import { SUBSCRIPTION_CREATE_RESET } from '../constants/subscriptionConstants';
 import ReactGA from 'react-ga';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 const { REACT_APP_GUA_ID } = process.env;
 
 const RegisterBundleScreen = ({ history }) => {
+  const { lang } = useContext(Context);
+
   const [orderPer, setOrderPer] = useState('Weekly');
   const [orderFrequency, setOrderFrequency] = useState(1);
   const [selectedBundleId, setSelectedBundleId] = useState('');
@@ -72,7 +76,7 @@ const RegisterBundleScreen = ({ history }) => {
               <ButtonGroup vertical className="pr-5">
                 {bundles.map((bundle) => (
                   <Link
-                    value={bundle.id}
+                    value={bundle._id}
                     key={bundle._id}
                     to={`/register/bundleplan/${bundle._id}`}
                   >
@@ -84,9 +88,14 @@ const RegisterBundleScreen = ({ history }) => {
                     >
                       <Row>
                         <Col md={3}>
-                          <Image src={bundle.image} alt={bundle.name} fluid rounded />
+                          <Image
+                            src={bundle.image}
+                            alt={renderWithLang(bundle.name, lang)}
+                            fluid
+                            rounded
+                          />
                         </Col>
-                        <Col md={7}>{bundle.name}</Col>
+                        <Col md={7}>{renderWithLang(bundle.name, lang)}</Col>
                         <Col md={2}>€{bundle.price}</Col>
                       </Row>
                     </Button>
@@ -181,7 +190,7 @@ const RegisterBundleScreen = ({ history }) => {
                   id="registerBundleScreen.youWillReceive"
                   defaultMessage="You will receive"
                 />{' '}
-                <em className="font-weight-bold">{selectedBundle.name}</em>{' '}
+                <em className="font-weight-bold">{renderWithLang(selectedBundle.name, lang)}</em>{' '}
                 <FormattedMessage id="registerBundleScreen.bundle" defaultMessage="bundle" />{' '}
                 <em className="font-weight-bold">{orderFrequency}</em>{' '}
                 <FormattedMessage id="registerBundleScreen.times" defaultMessage="times" />{' '}

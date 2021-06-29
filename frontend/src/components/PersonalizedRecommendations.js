@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import Rating from './Rating';
 import { Row, Col, Container, Card } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const PersonalizedRecommendations = ({ preferences }) => {
+  const { lang } = useContext(Context);
+
   const bundleList = useSelector((state) => state.bundleList);
   const { bundles } = bundleList;
   const filteredBundle = bundles.filter((bundle) => bundle.category.includes(preferences));
@@ -60,7 +64,7 @@ const PersonalizedRecommendations = ({ preferences }) => {
                       <Card.Body>
                         <LinkContainer to={`/bundles/${bundle._id}`}>
                           <Card.Title as="h6">
-                            <strong>{bundle.name}</strong>
+                            <strong>{renderWithLang(bundle.name, lang)}</strong>
                           </Card.Title>
                         </LinkContainer>
 

@@ -15,8 +15,9 @@ import introduction from '../introduction.json';
 import FarmsMap from '../components/FarmsMap';
 import FarmStory from '../components/FarmStory';
 import PersonalizedRecommendations from '../components/PersonalizedRecommendations';
-import { Context } from '../components/LanguageContext';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const HomeScreen = ({ match }) => {
   const { lang } = useContext(Context);
@@ -39,29 +40,6 @@ const HomeScreen = ({ match }) => {
     dispatch(listBundles(keyword));
   }, [dispatch, keyword]);
 
-  const renderContentWithLang = (content) => {
-    switch (lang) {
-      case 'English':
-        return {
-          header: content.headingEn,
-          desc: content.descriptionEn,
-          feedbackText: content.feedbackEn,
-        };
-      case 'Dutch':
-        return {
-          header: content.headingNl,
-          desc: content.descriptionNl,
-          feedbackText: content.feedbackNl,
-        };
-      default:
-        return {
-          header: content.headingEn,
-          desc: content.descriptionEn,
-          feedbackText: content.feedbackEn,
-        };
-    }
-  };
-
   return (
     <>
       <Meta />
@@ -81,10 +59,10 @@ const HomeScreen = ({ match }) => {
               <img className=" " src={introduction[0].image} alt="support_locals" />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  {renderContentWithLang(introduction[0]).header}
+                  {renderWithLang(introduction[0].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  {renderContentWithLang(introduction[0]).desc}
+                  {renderWithLang(introduction[0].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -97,10 +75,10 @@ const HomeScreen = ({ match }) => {
               />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  {renderContentWithLang(introduction[1]).header}
+                  {renderWithLang(introduction[1].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  {renderContentWithLang(introduction[1]).desc}
+                  {renderWithLang(introduction[1].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -113,10 +91,10 @@ const HomeScreen = ({ match }) => {
               />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  {renderContentWithLang(introduction[2]).header}
+                  {renderWithLang(introduction[2].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  {renderContentWithLang(introduction[2]).desc}
+                  {renderWithLang(introduction[2].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -288,7 +266,7 @@ const HomeScreen = ({ match }) => {
             feedback.map((feed, index) => {
               return (
                 <Col key={index}>
-                  <FeedBack text={renderContentWithLang(feed).feedbackText} name={feed.name} />
+                  <FeedBack text={renderWithLang(feed.feedback, lang)} name={feed.name} />
                 </Col>
               );
             })}

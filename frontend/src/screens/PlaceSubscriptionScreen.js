@@ -7,6 +7,7 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { createSubscription } from '../actions/subscriptionActions';
 import { FormattedMessage } from 'react-intl';
 import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 import { SUBSCRIPTION_CREATE_RESET } from '../constants/subscriptionConstants';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 
@@ -69,17 +70,6 @@ const PlaceSubscriptionScreen = ({ history }) => {
     { value: 'Every-2-Weeks', nl: 'Elke-2-weken' },
     { value: 'Monthly', nl: 'Maandelijks' },
   ];
-
-  const renderContentWithLang = (contentObject) => {
-    switch (lang) {
-      case 'English':
-        return contentObject.value;
-      case 'Dutch':
-        return contentObject.nl;
-      default:
-        return contentObject.value;
-    }
-  };
 
   return (
     <>
@@ -151,8 +141,9 @@ const PlaceSubscriptionScreen = ({ history }) => {
                             defaultMessage="times every"
                           />{' '}
                           {/* {item.orderPer}= €{item.qty * item.price * item.orderFrq} */}
-                          {renderContentWithLang(
-                            arrayOfTime.filter((x) => x.value === item.orderPer)[0]
+                          {renderWithLang(
+                            arrayOfTime.filter((x) => x.value === item.orderPer)[0],
+                            lang
                           )}{' '}
                           = €{item.qty * item.price * item.orderFrq}
                         </Col>

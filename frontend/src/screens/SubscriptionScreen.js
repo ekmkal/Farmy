@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { FormattedMessage } from 'react-intl';
 import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 import {
   getSubscriptionDetails,
   paySubscription,
@@ -106,17 +107,6 @@ const SubscriptionScreen = ({ match, history, location }) => {
     { value: 'Every-2-Weeks', nl: 'Elke-2-weken' },
     { value: 'Monthly', nl: 'Maandelijks' },
   ];
-
-  const renderContentWithLang = (contentObject) => {
-    switch (lang) {
-      case 'English':
-        return contentObject.value;
-      case 'Dutch':
-        return contentObject.nl;
-      default:
-        return contentObject.value;
-    }
-  };
 
   return loading ? (
     <Loader />
@@ -229,9 +219,9 @@ const SubscriptionScreen = ({ match, history, location }) => {
                           />{' '}
                           x €{item.price} x {item.orderFrq}{' '}
                           <FormattedMessage id="subscriptionScreen.every" defaultMessage="every" />{' '}
-                          {/* {item.orderPer}= €{item.qty * item.price * item.orderFrq} */}
-                          {renderContentWithLang(
-                            arrayOfTime.filter((x) => x.value === item.orderPer)[0]
+                          {renderWithLang(
+                            arrayOfTime.filter((x) => x.value === item.orderPer)[0],
+                            lang
                           )}{' '}
                           = €{item.qty * item.price * item.orderFrq}
                         </Col>

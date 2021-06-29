@@ -13,7 +13,7 @@ const reviewSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const bundleSchema = mongoose.Schema(
@@ -31,7 +31,7 @@ const bundleSchema = mongoose.Schema(
       },
     ],
     name: {
-      type: String,
+      type: Object,
       required: true,
     },
     image: {
@@ -39,7 +39,7 @@ const bundleSchema = mongoose.Schema(
       required: true,
     },
     description: {
-      type: String,
+      type: Object,
       required: true,
       default: ' ',
     },
@@ -73,7 +73,7 @@ const bundleSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Bundle = mongoose.model('Bundle', bundleSchema);

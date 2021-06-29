@@ -3,20 +3,12 @@ import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Rating from './Rating';
 import { Context } from './LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const Bundle = ({ bundle }) => {
   const { lang } = useContext(Context);
 
-  const renderContentWithLang = () => {
-    switch (lang) {
-      case 'English':
-        return 'reviews';
-      case 'Dutch':
-        return 'beoordelingen';
-      default:
-        return 'reviews';
-    }
-  };
+  const ratingTextWords = { value: 'reviews', nl: 'beordelingen' };
 
   return (
     <Card className="my-3 p-3 rounded">
@@ -27,12 +19,15 @@ const Bundle = ({ bundle }) => {
       <Card.Body>
         <LinkContainer to={`/bundles/${bundle._id}`}>
           <Card.Title as="div">
-            <strong>{bundle.name}</strong>
+            <strong>{renderWithLang(bundle.name, lang)}</strong>
           </Card.Title>
         </LinkContainer>
 
         <Card.Text as="div">
-          <Rating value={bundle.rating} text={`${bundle.numReviews} ${renderContentWithLang()}`} />
+          <Rating
+            value={bundle.rating}
+            text={`${bundle.numReviews} ${renderWithLang(ratingTextWords, lang)}`}
+          />
         </Card.Text>
 
         <Card.Text as="h3">€{bundle.price}</Card.Text>
