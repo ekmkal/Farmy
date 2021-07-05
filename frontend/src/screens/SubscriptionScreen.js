@@ -206,10 +206,17 @@ const SubscriptionScreen = ({ match, history, location }) => {
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
-                          <Image src={item.image} alt={item.name} fluid rounded />
+                          <Image
+                            src={item.image}
+                            alt={renderWithLang(item.name, lang)}
+                            fluid
+                            rounded
+                          />
                         </Col>
                         <Col>
-                          <Link to={`/bundles/${item.product}`}>{item.name}</Link>
+                          <Link to={`/bundles/${item.product}`}>
+                            {renderWithLang(item.name, lang)}
+                          </Link>
                         </Col>
                         <Col md={6}>
                           {item.qty}{' '}

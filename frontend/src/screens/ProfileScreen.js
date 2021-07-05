@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -10,8 +10,12 @@ import ProfileEditTabs from '../components/ProfileEditTabs';
 import FormContainer from '../components/FormContainer';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const ProfileScreen = ({ location, history }) => {
+  const { lang } = useContext(Context);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -228,7 +232,7 @@ const ProfileScreen = ({ location, history }) => {
                   </FormattedMessage>
                   {subscriptions.map((x) => (
                     <option key={x._id} value={x._id}>
-                      {x.subscriptionItems[0].name}
+                      {renderWithLang(x.subscriptionItems[0].name, lang)}
                     </option>
                   ))}
                 </Form.Control>

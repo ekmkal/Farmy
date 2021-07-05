@@ -9,7 +9,7 @@ const subscriptionSchema = mongoose.Schema(
     },
     subscriptionItems: [
       {
-        name: { type: String, required: true },
+        name: { type: Object, required: true },
         qty: { type: Number, required: true },
         orderPer: { type: String, required: true },
         orderFrq: { type: Number, required: true },
@@ -81,7 +81,7 @@ const subscriptionSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);

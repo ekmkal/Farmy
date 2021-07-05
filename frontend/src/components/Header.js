@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Dropdown } from 'react-bootstrap';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 import ReactGA from 'react-ga';
@@ -138,6 +138,7 @@ const Header = () => {
                 <NavDropdown
                   title={<FormattedMessage id="header.account" defaultMessage="Account" />}
                   id="account"
+                  style={{ marginRight: '0px' }}
                 >
                   <NavDropdown.Item disabled>{userInfo.name}</NavDropdown.Item>
                   <LinkContainer to="/profile">
@@ -158,14 +159,18 @@ const Header = () => {
                 </LinkContainer>
               )}
 
-              <select value={context.messages} onChange={context.setLanguage}>
-                <FormattedMessage id="header.langEng" defaultMessage="English">
-                  {(msg) => <option value="English">{msg}</option>}
-                </FormattedMessage>
-                <FormattedMessage id="header.langDutch" defaultMessage="Dutch">
-                  {(msg) => <option value="Dutch">{msg}</option>}
-                </FormattedMessage>
-              </select>
+              <NavDropdown title={<i class="fas fa-globe"></i>} id="language">
+                <NavDropdown.Item onClick={context.setLanguage}>
+                  <FormattedMessage id="header.langEng" defaultMessage="English">
+                    {(msg) => <option value="English">{msg}</option>}
+                  </FormattedMessage>
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={context.setLanguage}>
+                  <FormattedMessage id="header.langDutch" defaultMessage="Dutch">
+                    {(msg) => <option value="Dutch">{msg}</option>}
+                  </FormattedMessage>
+                </NavDropdown.Item>
+              </NavDropdown>
 
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">

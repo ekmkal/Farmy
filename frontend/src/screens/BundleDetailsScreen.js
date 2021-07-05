@@ -292,9 +292,9 @@ const BundleDetailsScreen = ({ match, history }) => {
                   {bundle.ingredients?.map(({ origin, price, name, image, _id }) => (
                     <Col xs={12} s={4} md={4} lg={3} key={_id}>
                       <Card className="my-3">
-                        <Card.Img variant="top" src={image} alt={name} height="150px" />
+                        <Card.Img variant="top" src={image} alt={name.value} height="150px" />
                         <Card.Body>
-                          <Card.Title>{name}</Card.Title>
+                          <Card.Title>{renderWithLang(name, lang)}</Card.Title>
                         </Card.Body>
                         <ListGroup className="list-group-flush">
                           <ListGroup.Item>
@@ -309,7 +309,7 @@ const BundleDetailsScreen = ({ match, history }) => {
                               id="bundleDetailsScreen.origin"
                               defaultMessage="Origin"
                             />
-                            : {origin}
+                            : {renderWithLang(origin, lang)}
                           </ListGroup.Item>
                         </ListGroup>
                       </Card>
@@ -392,7 +392,6 @@ const BundleDetailsScreen = ({ match, history }) => {
                                   value={rating}
                                   onChange={(e) => setRating(e.target.value)}
                                 >
-                                  {/* <option value="">Select...</option> */}
                                   <FormattedMessage
                                     id="bundleDetailsScreen.reviewOption-1"
                                     defaultMessage="Select"

@@ -8,6 +8,7 @@ import { listMySubscriptions, cancelSubscription } from '../actions/subscription
 import ProfileEditTabs from '../components/ProfileEditTabs';
 import { Context } from '../components/LanguageContext';
 import { FormattedMessage } from 'react-intl';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const SubscriptionListScreen = ({ history }) => {
   const { lang } = useContext(Context);
@@ -34,8 +35,7 @@ const SubscriptionListScreen = ({ history }) => {
   } = subscriptionListMy;
 
   const cancelHandler = (id) => {
-    if (window.confirm('Are you sure')) {
-      console.log('delete');
+    if (window.confirm('Are you sure to cancel this subscription?')) {
       dispatch(cancelSubscription(id));
     }
   };
@@ -110,10 +110,10 @@ const SubscriptionListScreen = ({ history }) => {
                     <img
                       style={{ width: '80px' }}
                       src={subscription.subscriptionItems[0].image}
-                      alt={subscription.subscriptionItems[0].name}
+                      alt={renderWithLang(subscription.subscriptionItems[0].name, lang)}
                     />
                   </td>
-                  <td>{subscription.subscriptionItems[0].name}</td>
+                  <td>{renderWithLang(subscription.subscriptionItems[0].name, lang)}</td>
                   <td>{subscription.createdAt.substring(0, 10)}</td>
                   <td>{subscription.totalPrice}</td>
                   <td>
