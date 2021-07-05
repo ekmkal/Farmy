@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../actions/cartActions';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { FormattedMessage } from 'react-intl';
 import 'react-phone-number-input/style.css';
 
 const ShippingScreen = ({ history }) => {
@@ -46,93 +47,144 @@ const ShippingScreen = ({ history }) => {
       <CheckoutSteps step1 step2 />
       {message && <Message variant="danger">{message}</Message>}
       {error && <Message variant="danger">{error}</Message>}
-      <h1>Shipping</h1>
+      <h1>
+        <FormattedMessage id="shippingScreen.shipping" defaultMessage="Shipping" />
+      </h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="text"
-            placeholder="Enter your name"
-            value={name || ''}
-            required
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.name" defaultMessage="Name" />
+          </Form.Label>
+          <FormattedMessage id="shippingScreen.namePlaceholder" defaultMessage="Enter your name">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="text"
+                placeholder={msg}
+                value={name || ''}
+                required
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Form.Group controlId="phoneNumber" onBlur={validatePhoneNumber}>
-          <Form.Label>Phone Number</Form.Label>
-          <PhoneInput
-            international
-            defaultCountry="NL"
-            placeholder="Enter phone number"
-            value={phoneNumber}
-            onChange={setPhoneNumber}
-            error={
-              phoneNumber
-                ? isValidPhoneNumber(phoneNumber)
-                  ? undefined
-                  : 'Invalid phone number'
-                : 'Phone number required'
-            }
-          />
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.phoneNumber" defaultMessage="Phone Number" />
+          </Form.Label>
+          <FormattedMessage
+            id="shippingScreen.phoneNumberPlaceholder"
+            defaultMessage="Enter phone number"
+          >
+            {(msg) => (
+              <PhoneInput
+                international
+                defaultCountry="NL"
+                placeholder={msg}
+                value={phoneNumber}
+                onChange={setPhoneNumber}
+                error={
+                  phoneNumber
+                    ? isValidPhoneNumber(phoneNumber)
+                      ? undefined
+                      : 'Invalid phone number'
+                    : 'Phone number required'
+                }
+              />
+            )}
+          </FormattedMessage>
           {isValidNumber === true ? (
-            <Message variant="info">It is valid number</Message>
+            <Message variant="info">
+              <FormattedMessage id="shippingScreen.validNum" defaultMessage="It is valid number" />
+            </Message>
           ) : isValidNumber === false ? (
-            <Message variant="danger">Phone Number is not valid</Message>
+            <Message variant="danger">
+              <FormattedMessage
+                id="shippingScreen.invalidNum"
+                defaultMessage="Phone Number is not valid"
+              />
+            </Message>
           ) : null}
         </Form.Group>
 
         <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="text"
-            placeholder="Enter address"
-            value={address || ''}
-            required
-            onChange={(e) => setAddress(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.address" defaultMessage="Address" />
+          </Form.Label>
+          <FormattedMessage id="shippingScreen.addressPlaceholder" defaultMessage="Enter address">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="text"
+                placeholder={msg}
+                value={address || ''}
+                required
+                onChange={(e) => setAddress(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="text"
-            placeholder="Enter city"
-            value={city || ''}
-            required
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.city" defaultMessage="City" />
+          </Form.Label>
+          <FormattedMessage id="shippingScreen.cityPlaceholder" defaultMessage="Enter city">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="text"
+                placeholder={msg}
+                value={city || ''}
+                required
+                onChange={(e) => setCity(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="text"
-            placeholder="Enter postal code"
-            value={postalCode || ''}
-            required
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.postalCode" defaultMessage="Postal Code" />
+          </Form.Label>
+          <FormattedMessage
+            id="shippingScreen.postalCodePlaceholder"
+            defaultMessage="Enter postal code"
+          >
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="text"
+                placeholder={msg}
+                value={postalCode || ''}
+                required
+                onChange={(e) => setPostalCode(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            className="inputBG"
-            type="text"
-            placeholder="Enter country"
-            value={country || ''}
-            required
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
+          <Form.Label>
+            <FormattedMessage id="shippingScreen.country" defaultMessage="Country" />
+          </Form.Label>
+          <FormattedMessage id="shippingScreen.countryPlaceholder" defaultMessage="Enter country">
+            {(msg) => (
+              <Form.Control
+                className="inputBG"
+                type="text"
+                placeholder={msg}
+                value={country || ''}
+                required
+                onChange={(e) => setCountry(e.target.value)}
+              ></Form.Control>
+            )}
+          </FormattedMessage>
         </Form.Group>
 
         <Button type="submit" variant="primary">
-          Continue
+          <FormattedMessage id="shippingScreen.continue" defaultMessage="Continue" />
         </Button>
       </Form>
     </FormContainer>

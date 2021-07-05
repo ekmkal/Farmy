@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Dropdown } from 'react-bootstrap';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 import ReactGA from 'react-ga';
+import { Context } from '../components/LanguageContext';
+import { FormattedMessage } from 'react-intl';
 const { REACT_APP_GUA_ID } = process.env;
 
 const Header = () => {
+  const context = useContext(Context);
+
   const dispatch = useDispatch();
   ReactGA.initialize(REACT_APP_GUA_ID);
 
@@ -104,7 +108,8 @@ const Header = () => {
               {userInfo && !userInfo.isAdmin && (
                 <LinkContainer to="/preferences">
                   <Nav.Link>
-                    <i className="fas fa-utensils"></i> Preferences
+                    <i className="fas fa-utensils"></i>{' '}
+                    <FormattedMessage id="header.preference" defaultMessage="Preferences" />
                     {userInfo.preferences?.diet === '' ? (
                       <sup>
                         <span className="badge badge-danger rounded-pill "> &middot; </span>
@@ -118,30 +123,55 @@ const Header = () => {
               {userInfo && !userInfo.isAdmin && (
                 <LinkContainer to="/subscriptions">
                   <Nav.Link onClick={gaPlanEvent}>
-                    <i className="fas fa-calendar-alt"></i> Plan
+                    <i className="fas fa-calendar-alt"></i>{' '}
+                    <FormattedMessage id="header.plan" defaultMessage="Plan" />
                   </Nav.Link>
                 </LinkContainer>
               )}
               <LinkContainer to="/cart">
                 <Nav.Link onClick={gaCartEvent}>
-                  <i className="fas fa-shopping-cart"></i> Cart
+                  <i className="fas fa-shopping-cart"></i>{' '}
+                  <FormattedMessage id="header.cart" defaultMessage="Cart" />
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title="Account" id="account">
+                <NavDropdown
+                  title={<FormattedMessage id="header.account" defaultMessage="Account" />}
+                  id="account"
+                  style={{ marginRight: '0px' }}
+                >
                   <NavDropdown.Item disabled>{userInfo.name}</NavDropdown.Item>
                   <LinkContainer to="/profile">
-                    <NavDropdown.Item onClick={gaProfileEvent}>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={gaProfileEvent}>
+                      <FormattedMessage id="header.dropdown.profile" defaultMessage="Profile" />
+                    </NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    <FormattedMessage id="header.dropdown.logout" defaultMessage="Logout" />
+                  </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link onClick={gaLoginEvent}>
-                    <i className="fas fa-user"></i> Sign In
+                    <i className="fas fa-user"></i>{' '}
+                    <FormattedMessage id="header.dropdown.signin" defaultMessage="Sign In" />
                   </Nav.Link>
                 </LinkContainer>
               )}
+
+              <NavDropdown title={<i class="fas fa-globe"></i>} id="language">
+                <NavDropdown.Item onClick={context.setLanguage}>
+                  <FormattedMessage id="header.langEng" defaultMessage="English">
+                    {(msg) => <option value="English">{msg}</option>}
+                  </FormattedMessage>
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={context.setLanguage}>
+                  <FormattedMessage id="header.langDutch" defaultMessage="Dutch">
+                    {(msg) => <option value="Dutch">{msg}</option>}
+                  </FormattedMessage>
+                </NavDropdown.Item>
+              </NavDropdown>
+
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
                   <LinkContainer to="/admin/userlist">

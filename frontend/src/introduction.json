@@ -1,17 +1,17 @@
 [
     {
-        "image":"https://i.ibb.co/PjZM7wg/This-is-a-wide-variety-of-fresh-vegetables-and-fruits.jpg",
-        "heading":"Support your locals",
-        "description":"A lot of products are produced locally. We want to make sure you eat healthy, and pay less."
+        "image":"https://i.ibb.co/6bFf3Ln/locals.jpg",
+        "heading" : {"value": "Support locals and pay less", "nl": "Steun de lokale bevolking en betaal minder"},
+        "description" : {"value": "Our products are produced locally. Our mission is to provide you healthy fresh ingredients while paying less", "nl": "Onze producten worden lokaal geproduceerd. Onze missie is om u gezonde verse ingrediënten te bieden terwijl u minder betaalt"}
     },
     {
-        "image":"https://i.ibb.co/T13LjFr/chef-demo-cooking-saucing-dish.jpg",
-        "heading":"Healthy & hand-crafted",
-        "description":"The healthy eating you deserve straight from your freezer. 100% taste. Zero faff necessary."
+        "image":"https://images.unsplash.com/photo-1518843875459-f738682238a6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3426&q=80",
+        "heading" : {"value": "The freshest, straight to you", "nl": "De meest verse, rechtstreeks naar jou"},
+        "description" : {"value": "Always fresh, ready in no time. 100% taste. 0% fuss.", "nl": "Altijd vers, in een mum van tijd klaar. 100% smaak. 0% gedoe."}
     },
     {
-        "image":"https://i.ibb.co/zs7x1kR/download.png",
-        "heading":"Next day delivery",
-        "description":"Sustainable packaging keeps everything cool for up to 24 hours, order by 9pm. Flash frozen and delivered in a flash."
+        "image":"https://i.ibb.co/cFPjk9H/Farmy2.jpg",
+        "heading" : {"value": "Next-day delivery", "nl": "Volgende dag geleverd"},
+        "description" : {"value": "Sustainable packaging keeps everything cool for up to 24 hours, order by 9pm. Flash frozen and delivered in a flash.", "nl": "Duurzame verpakkingen houden alles tot 24 uur koel, bestel voor 21.00 uur. Flash bevroren en in een flits geleverd."}
     }
 ]

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -9,8 +9,13 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import ProfileEditTabs from '../components/ProfileEditTabs';
 import FormContainer from '../components/FormContainer';
 import axios from 'axios';
+import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const ProfileScreen = ({ location, history }) => {
+  const { lang } = useContext(Context);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,8 +47,6 @@ const ProfileScreen = ({ location, history }) => {
   const [country, setCountry] = useState();
 
   const timeInHours = new Date().getHours();
-
-  // console.log(success);
 
   useEffect(() => {
     if (!userInfo) {
@@ -99,17 +102,26 @@ const ProfileScreen = ({ location, history }) => {
       <ProfileEditTabs profile subscriptions preferences />
 
       <h2>
-        {timeInHours > 0 && timeInHours < 12
-          ? 'Good Morning'
-          : timeInHours >= 12 && timeInHours <= 15
-          ? 'Good Afternoon'
-          : timeInHours >= 16 && timeInHours <= 24
-          ? 'Good Evening'
-          : 'Hello'}
+        {timeInHours > 0 && timeInHours < 12 ? (
+          <FormattedMessage id="profileScreen.message.morning" defaultMessage="Good morning" />
+        ) : timeInHours >= 12 && timeInHours <= 15 ? (
+          <FormattedMessage id="profileScreen.message.afternoon" defaultMessage="Good afternoon" />
+        ) : timeInHours >= 16 && timeInHours <= 24 ? (
+          <FormattedMessage id="profileScreen.message.evening" defaultMessage="Good evening" />
+        ) : (
+          <FormattedMessage id="profileScreen.message.hello" defaultMessage="Hello" />
+        )}
         , {user.name}!
       </h2>
       {message && <Message variant="danger">{message}</Message>}
-      {success && <Message variant="success">Profile Updated</Message>}
+      {success && (
+        <Message variant="success">
+          <FormattedMessage
+            id="profileScreen.message.profileUpdated"
+            defaultMessage="Profile Updated"
+          />
+        </Message>
+      )}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -117,44 +129,80 @@ const ProfileScreen = ({ location, history }) => {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              className="inputBG"
-              type="name"
-              placeholder="Enter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
+            <Form.Label>
+              <FormattedMessage id="profileScreen.form.name" defaultMessage="Name" />
+            </Form.Label>
+            <FormattedMessage id="profileScreen.form.namePlaceholder" defaultMessage="Enter name">
+              {(msg) => (
+                <Form.Control
+                  className="inputBG"
+                  type="name"
+                  placeholder={msg}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              )}
+            </FormattedMessage>
           </Form.Group>
           <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              className="inputBG"
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
+            <Form.Label>
+              <FormattedMessage
+                id="profileScreen.form.emailaddress"
+                defaultMessage="E-mail address"
+              />
+            </Form.Label>
+            <FormattedMessage id="profileScreen.form.emailPlaceholder" defaultMessage="Enter email">
+              {(msg) => (
+                <Form.Control
+                  className="inputBG"
+                  type="email"
+                  placeholder={msg}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                ></Form.Control>
+              )}
+            </FormattedMessage>
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              className="inputBG"
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
+            <Form.Label>
+              <FormattedMessage id="profileScreen.form.password" defaultMessage="Password" />
+            </Form.Label>
+            <FormattedMessage
+              id="profileScreen.form.passwordPlaceholder"
+              defaultMessage="Enter password"
+            >
+              {(msg) => (
+                <Form.Control
+                  className="inputBG"
+                  type="password"
+                  placeholder={msg}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                ></Form.Control>
+              )}
+            </FormattedMessage>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              className="inputBG"
-              type="password"
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
+            <Form.Label>
+              <FormattedMessage
+                id="profileScreen.form.confirmPassword"
+                defaultMessage="Confrim Password"
+              />
+            </Form.Label>
+            <FormattedMessage
+              id="profileScreen.form.confirmPasswordPlaceholder"
+              defaultMessage="Confirm password"
+            >
+              {(msg) => (
+                <Form.Control
+                  className="inputBG"
+                  type="password"
+                  placeholder={msg}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                ></Form.Control>
+              )}
+            </FormattedMessage>
           </Form.Group>
 
           {loadingSubscriptions ? (
@@ -164,65 +212,114 @@ const ProfileScreen = ({ location, history }) => {
           ) : (
             <>
               <Form.Group>
-                <h6>Change subscription address </h6>
+                <h6>
+                  <FormattedMessage
+                    id="profileScreen.heading.changeAdress"
+                    defaultMessage="Change subscription address"
+                  />
+                </h6>
                 <Form.Control
                   className="inputBG"
                   as="select"
                   // defaultValue={'defaultSub'}
                   onChange={(e) => setSubId(e.target.value)}
                 >
-                  <option>choose a subscription</option>
+                  <FormattedMessage
+                    id="profileScreen.heading.changeAdressOption"
+                    defaultMessage="Choose a subscription"
+                  >
+                    {(msg) => <option>{msg}</option>}
+                  </FormattedMessage>
                   {subscriptions.map((x) => (
                     <option key={x._id} value={x._id}>
-                      {x.subscriptionItems[0].name}
+                      {renderWithLang(x.subscriptionItems[0].name, lang)}
                     </option>
                   ))}
                 </Form.Control>
               </Form.Group>
               <Form.Group controlId="address">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                  className="inputBG"
-                  type="text"
-                  placeholder="Enter address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                ></Form.Control>
+                <Form.Label>
+                  <FormattedMessage id="profileScreen.form.adress" defaultMessage="Adress" />
+                </Form.Label>
+                <FormattedMessage
+                  id="profileScreen.form.adressPlaceholder"
+                  defaultMessage="Enter address"
+                >
+                  {(msg) => (
+                    <Form.Control
+                      className="inputBG"
+                      type="text"
+                      placeholder={msg}
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    ></Form.Control>
+                  )}
+                </FormattedMessage>
               </Form.Group>
               <Form.Group controlId="">
-                <Form.Label>City</Form.Label>
-                <Form.Control
-                  className="inputBG"
-                  type="text"
-                  placeholder="Enter city"
-                  value={city || ''}
-                  onChange={(e) => setCity(e.target.value)}
-                ></Form.Control>
+                <Form.Label>
+                  <FormattedMessage id="profileScreen.form.city" defaultMessage="City" />
+                </Form.Label>
+                <FormattedMessage
+                  id="profileScreen.form.cityPlaceholder"
+                  defaultMessage="Enter city"
+                >
+                  {(msg) => (
+                    <Form.Control
+                      className="inputBG"
+                      type="text"
+                      placeholder={msg}
+                      value={city || ''}
+                      onChange={(e) => setCity(e.target.value)}
+                    ></Form.Control>
+                  )}
+                </FormattedMessage>
               </Form.Group>
               <Form.Group controlId="postalCode">
-                <Form.Label>Postal Code</Form.Label>
-                <Form.Control
-                  className="inputBG"
-                  type="text"
-                  placeholder="Enter postal code"
-                  value={postalCode || ''}
-                  onChange={(e) => setPostalCode(e.target.value)}
-                ></Form.Control>
+                <Form.Label>
+                  <FormattedMessage
+                    id="profileScreen.form.postalCode"
+                    defaultMessage="Postal Code"
+                  />
+                </Form.Label>
+                <FormattedMessage
+                  id="profileScreen.form.postalCodePlaceholder"
+                  defaultMessage="Enter postal code"
+                >
+                  {(msg) => (
+                    <Form.Control
+                      className="inputBG"
+                      type="text"
+                      placeholder={msg}
+                      value={postalCode || ''}
+                      onChange={(e) => setPostalCode(e.target.value)}
+                    ></Form.Control>
+                  )}
+                </FormattedMessage>
               </Form.Group>
               <Form.Group controlId="country">
-                <Form.Label>Country</Form.Label>
-                <Form.Control
-                  className="inputBG"
-                  type="text"
-                  placeholder="Enter country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                ></Form.Control>
+                <Form.Label>
+                  <FormattedMessage id="profileScreen.form.country" defaultMessage="Country" />
+                </Form.Label>
+                <FormattedMessage
+                  id="profileScreen.form.countryPlaceholder"
+                  defaultMessage="Enter country"
+                >
+                  {(msg) => (
+                    <Form.Control
+                      className="inputBG"
+                      type="text"
+                      placeholder={msg}
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                    ></Form.Control>
+                  )}
+                </FormattedMessage>
               </Form.Group>
             </>
           )}
           <Button type="submit" variant="primary">
-            Update
+            <FormattedMessage id="profileScreen.form.button" defaultMessage="Update" />
           </Button>
         </Form>
       )}

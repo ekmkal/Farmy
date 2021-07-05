@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { authFacebook } from '../actions/userActions';
+import { FormattedMessage } from 'react-intl';
 
 const FacebookAuth = ({ apiKey, registerEvent }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const FacebookAuth = ({ apiKey, registerEvent }) => {
             style={{ backgroundColor: '#3C66C4', border: 'none' }}
           >
             <i style={{ float: 'left' }} className="fab fa-facebook-f py-1"></i>
-            Continue with Facebook
+            <FormattedMessage id="facebookAuth.button" defaultMessage="Continue with" /> Facebook
           </Button>
         )}
         autoLoad={false}

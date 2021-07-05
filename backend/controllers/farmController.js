@@ -10,6 +10,9 @@ export const getFarms = asyncHandler(async (req, res) => {
   res.json(farms);
 });
 
+// @desc    Fetch particular farm
+// @route   GET /api/:id
+// @access  Public
 export const getFarmById = asyncHandler(async (req, res) => {
   const farm = await Farm.findById(req.params.id).populate({
     path: 'farms',

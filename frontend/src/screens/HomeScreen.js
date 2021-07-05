@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Container, Button, Carousel } from 'react-bootstrap';
@@ -11,11 +11,17 @@ import { listBundles, listLatestBundles } from '../actions/bundleActions';
 import Bundle from '../components/Bundle';
 import FeedBack from '../components/FeedBack';
 import feedback from '../feedback.json';
+import introduction from '../introduction.json';
 import FarmsMap from '../components/FarmsMap';
 import FarmStory from '../components/FarmStory';
 import PersonalizedRecommendations from '../components/PersonalizedRecommendations';
+import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const HomeScreen = ({ match }) => {
+  const { lang } = useContext(Context);
+
   const dispatch = useDispatch();
 
   const bundleList = useSelector((state) => state.bundleList);
@@ -43,36 +49,36 @@ const HomeScreen = ({ match }) => {
         <>
           {userInfo && (
             <Message style={{ color: '#b36458' }} variant="success">
-              Welcome {userInfo.name}!
+              <FormattedMessage id="homeScreen.welcomeMsg" defaultMessage="Welcome" />{' '}
+              {userInfo.name}!
             </Message>
           )}
 
           <Carousel style={{ color: 'white', fontSize: 'large', height: '460px' }}>
             <Carousel.Item>
-              <img className=" " src="https://i.ibb.co/6bFf3Ln/locals.jpg" alt="support locals" />
+              <img className=" " src={introduction[0].image} alt="support_locals" />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  Support locals and pay less
+                  {renderWithLang(introduction[0].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  Our products are produced locally. Our mission is to provide you healthy fresh
-                  ingredients while paying less
+                  {renderWithLang(introduction[0].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="https://images.unsplash.com/photo-1518843875459-f738682238a6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3426&q=80"
-                alt="healthy and fresh"
+                src={introduction[1].image}
+                alt="healthy_and_fresh"
                 className="veggies-pic"
               />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  The freshest, straight to you
+                  {renderWithLang(introduction[1].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  Always fresh, ready in no time. 100% taste. 0% fuss.
+                  {renderWithLang(introduction[1].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -80,16 +86,15 @@ const HomeScreen = ({ match }) => {
               <img
                 className="d-block w-100"
                 className="car-img"
-                src="https://i.ibb.co/cFPjk9H/Farmy2.jpg"
+                src={introduction[2].image}
                 alt="Delivery"
               />
               <Carousel.Caption>
                 <h3 style={{ color: 'white' }} className="header">
-                  Next-day delivery
+                  {renderWithLang(introduction[2].heading, lang)}
                 </h3>
                 <p className="label" className="sub-header">
-                  Sustainable packaging keeps everything cool for up to 24 hours, order by 9pm.
-                  Flash frozen and delivered in a flash.
+                  {renderWithLang(introduction[2].description, lang)}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -102,22 +107,41 @@ const HomeScreen = ({ match }) => {
           ) : (
             userInfo && (
               <h2 style={{ color: '#808080	' }} className="border text-center prerefrence-box">
-                Please fill in
+                <FormattedMessage id="homeScreen.fillInMsg" defaultMessage="Please fill in" />
                 <Link to="/preferences" style={{ color: '#808080	' }}>
-                  <span style={{ color: '#b36458' }}> preferences </span>
+                  <span style={{ color: '#b36458' }}>
+                    {' '}
+                    <FormattedMessage
+                      id="homeScreen.preferences"
+                      defaultMessage="preferences"
+                    />{' '}
+                  </span>
                 </Link>{' '}
-                to see recommendations
+                <FormattedMessage
+                  id="homeScreen.recomToSee"
+                  defaultMessage="to see recommendations"
+                />
               </h2>
             )
           )}
           {!bundles.length && !bundlesListLatest.length && (
-            <Message variant="primary">Nothing found</Message>
+            <Message variant="primary">
+              <FormattedMessage
+                id="homeScreen.message.nothingFound"
+                defaultMessage="Nothing Found"
+              />
+            </Message>
           )}
 
           {userInfo && (
             <>
               <Container className="mb-5 latest-bundles">
-                <h1>Latest Bundles</h1>
+                <h1>
+                  <FormattedMessage
+                    id="homeScreen.heading.latestBundles"
+                    defaultMessage="Latest Bundles"
+                  />
+                </h1>
                 <Row>
                   {bundlesListLatest.map((bundle) => (
                     <Col key={bundle._id}>
@@ -129,12 +153,16 @@ const HomeScreen = ({ match }) => {
             </>
           )}
           <Container className="mb-5" className={!userInfo && 'bundlesPadding'}>
-            <h1>Our Bundles</h1>
+            <h1>
+              <FormattedMessage id="homeScreen.heading.ourBundles" defaultMessage="Our Bundles" />
+            </h1>
 
             <Filter keyword={keyword} />
             {loading && <Loader />}
             {bundles.length === 0 && !loading ? (
-              <h3>No Bundles Found!</h3>
+              <h3>
+                <FormattedMessage id="homeScreen.noBundles" defaultMessage="No Bundles Found" />!
+              </h3>
             ) : (
               <Row>
                 {bundles &&
@@ -146,7 +174,10 @@ const HomeScreen = ({ match }) => {
                       </Link>
                       <LinkContainer to={`/bundles/${bundle._id}`}>
                         <Button className="large-btn" variant="outline-success" size="lg" block>
-                          Subscribe
+                          <FormattedMessage
+                            id="homeScreen.subscribeButton"
+                            defaultMessage="Subscribe"
+                          />
                         </Button>
                       </LinkContainer>
                     </Col>
@@ -156,7 +187,9 @@ const HomeScreen = ({ match }) => {
           </Container>
 
           <Container className="mb-4">
-            <h1>Our Farmers</h1>
+            <h1>
+              <FormattedMessage id="homeScreen.ourFarmers" defaultMessage="Our Farmers" />
+            </h1>
             <FarmsMap />
             <FarmStory />
           </Container>
@@ -164,9 +197,17 @@ const HomeScreen = ({ match }) => {
       ) : (
         <Container className="mb-5">
           <Link to="/" className="btn btn-light">
-            Go Back
+            <FormattedMessage id="homeScreen.goBack" defaultMessage="Go Back" />
           </Link>
-          {keyword && <h1>Search Results for "{keyword}"</h1>}
+          {keyword && (
+            <h1>
+              <FormattedMessage
+                id="homeScreen.heading.searchResult"
+                defaultMessage="Search Results for"
+              />{' '}
+              "{keyword}"
+            </h1>
+          )}
 
           {bundles.length ? (
             <Row>
@@ -177,7 +218,10 @@ const HomeScreen = ({ match }) => {
                   </Link>
                   <LinkContainer to={`/subscription/${bundle._id}`}>
                     <Button variant="outline-success" size="lg" block>
-                      Subscribe
+                      <FormattedMessage
+                        id="homeScreen.subscribeButton"
+                        defaultMessage="Subscribe"
+                      />
                     </Button>
                   </LinkContainer>
                 </Col>
@@ -185,15 +229,22 @@ const HomeScreen = ({ match }) => {
             </Row>
           ) : (
             <>
-              <Message variant="danger">No results found.</Message>
-              <h3>You may also like</h3>
+              <Message variant="danger">
+                <FormattedMessage id="homeScreen.noResults" defaultMessage="No results found" />.
+              </Message>
+              <h3>
+                <FormattedMessage id="homeScreen.youMayLike" defaultMessage="You may also like" />
+              </h3>
               <Row>
                 {bundlesListLatest.map((bundle) => (
                   <Col key={bundle._id}>
                     <Bundle bundle={bundle} />
                     <LinkContainer to={`/bundles/${bundle._id}`}>
                       <Button variant="outline-success" size="lg" block>
-                        Subscribe
+                        <FormattedMessage
+                          id="homeScreen.subscribeButton"
+                          defaultMessage="Subscribe"
+                        />
                       </Button>
                     </LinkContainer>
                   </Col>
@@ -204,13 +255,18 @@ const HomeScreen = ({ match }) => {
         </Container>
       )}
       <Container className="mb-5">
-        <h1>Loved by thousands of customers</h1>
+        <h1>
+          <FormattedMessage
+            id="homeScreen.heading.ratings"
+            defaultMessage="Loved by thousands of customers"
+          />
+        </h1>
         <Row>
           {feedback &&
             feedback.map((feed, index) => {
               return (
                 <Col key={index}>
-                  <FeedBack text={feed.feedback} name={feed.name} />
+                  <FeedBack text={renderWithLang(feed.feedback, lang)} name={feed.name} />
                 </Col>
               );
             })}

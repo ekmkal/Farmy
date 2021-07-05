@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 
 const FarmStory = () => {
+  const { lang } = useContext(Context);
+
   const farmsData = useSelector((state) => state.farmList);
 
   const { farm } = farmsData;
@@ -18,10 +22,10 @@ const FarmStory = () => {
           style={{ border: '2px solid rgb(108,188,122)' }}
         >
           <Card.Header as="div" style={{ backgroundColor: 'transparent' }}>
-            {item.name}
+            {renderWithLang(item.name, lang)}
           </Card.Header>
           <Card.Body as="div" style={{ color: 'rgb(108,188,122)' }}>
-            {item.story}
+            {renderWithLang(item.story, lang)}
           </Card.Body>
         </Card>
       ))}

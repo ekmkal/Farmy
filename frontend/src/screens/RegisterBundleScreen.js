@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Form, ButtonGroup, Image, Button, ListGroup } from 'react-bootstrap';
@@ -7,9 +7,14 @@ import Loader from '../components/Loader';
 import { listBundlesNewUser } from '../actions/bundleActions';
 import { SUBSCRIPTION_CREATE_RESET } from '../constants/subscriptionConstants';
 import ReactGA from 'react-ga';
+import { FormattedMessage } from 'react-intl';
+import { Context } from '../components/LanguageContext';
+import { renderWithLang } from '../languages/renderWithLang';
 const { REACT_APP_GUA_ID } = process.env;
 
 const RegisterBundleScreen = ({ history }) => {
+  const { lang } = useContext(Context);
+
   const [orderPer, setOrderPer] = useState('Weekly');
   const [orderFrequency, setOrderFrequency] = useState(1);
   const [selectedBundleId, setSelectedBundleId] = useState('');
@@ -61,12 +66,17 @@ const RegisterBundleScreen = ({ history }) => {
         <>
           <Row className="border-bottom py-3 my-2">
             <Col className="border-right " md={6}>
-              <h2>Select your First Bundle</h2>
+              <h2>
+                <FormattedMessage
+                  id="registerBundleScreen.selectFirstBundle"
+                  defaultMessage="Select Your First Bundle"
+                />
+              </h2>
 
               <ButtonGroup vertical className="pr-5">
                 {bundles.map((bundle) => (
                   <Link
-                    value={bundle.id}
+                    value={bundle._id}
                     key={bundle._id}
                     to={`/register/bundleplan/${bundle._id}`}
                   >
@@ -78,9 +88,14 @@ const RegisterBundleScreen = ({ history }) => {
                     >
                       <Row>
                         <Col md={3}>
-                          <Image src={bundle.image} alt={bundle.name} fluid rounded />
+                          <Image
+                            src={bundle.image}
+                            alt={renderWithLang(bundle.name, lang)}
+                            fluid
+                            rounded
+                          />
                         </Col>
-                        <Col md={7}>{bundle.name}</Col>
+                        <Col md={7}>{renderWithLang(bundle.name, lang)}</Col>
                         <Col md={2}>€{bundle.price}</Col>
                       </Row>
                     </Button>
@@ -92,7 +107,12 @@ const RegisterBundleScreen = ({ history }) => {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row className="pl-5 pb-5">
-                    <h3>Select quantity of bundles </h3>
+                    <h3>
+                      <FormattedMessage
+                        id="registerBundleScreen.selectQuantity"
+                        defaultMessage="Select quantity of bundles"
+                      />
+                    </h3>
                     <Form.Control
                       as="select"
                       className="signup-bundle-options rounded pl-4"
@@ -109,7 +129,13 @@ const RegisterBundleScreen = ({ history }) => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row className="pl-5 pb-5">
-                    <h3>How often would like to receive the bundle?</h3>
+                    <h3>
+                      <FormattedMessage
+                        id="registerBundleScreen.howOften"
+                        defaultMessage="How often would like to receive the bundle"
+                      />
+                      ?
+                    </h3>
                     <Form.Control
                       as="select"
                       className="signup-bundle-options rounded pl-4"
@@ -126,9 +152,16 @@ const RegisterBundleScreen = ({ history }) => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row className="pl-5 pb-5">
-                    <h3>How many times {orderPer}?</h3>
+                    <h3>
+                      <FormattedMessage
+                        id="registerBundleScreen.howManyTimes"
+                        defaultMessage="How many times"
+                      />{' '}
+                      {orderPer}?
+                    </h3>
                     <Form.Control
                       as="select"
+                      className="signup-bundle-options rounded pl-4"
                       value={orderFrequency}
                       onChange={(e) => setOrderFrequency(e.target.value)}
                     >
@@ -153,10 +186,18 @@ const RegisterBundleScreen = ({ history }) => {
           <Row className="d-flex align-items-center justify-content-center py-3 my-2 ">
             {selectedBundleId !== '' && (
               <Message variant="info">
-                You will receive <em className="font-weight-bold">{selectedBundle.name}</em> bundle{' '}
-                <em className="font-weight-bold">{orderFrequency}</em> times{' '}
-                <em className="font-weight-bold">{orderPer}</em> and for{' '}
-                <em className="font-weight-bold">{houseHold}</em> people
+                <FormattedMessage
+                  id="registerBundleScreen.youWillReceive"
+                  defaultMessage="You will receive"
+                />{' '}
+                <em className="font-weight-bold">{renderWithLang(selectedBundle.name, lang)}</em>{' '}
+                <FormattedMessage id="registerBundleScreen.bundle" defaultMessage="bundle" />{' '}
+                <em className="font-weight-bold">{orderFrequency}</em>{' '}
+                <FormattedMessage id="registerBundleScreen.times" defaultMessage="times" />{' '}
+                <em className="font-weight-bold">{orderPer}</em>{' '}
+                <FormattedMessage id="registerBundleScreen.andFor" defaultMessage="and for" />{' '}
+                <em className="font-weight-bold">{houseHold}</em>{' '}
+                <FormattedMessage id="registerBundleScreen.people" defaultMessage="people" />
               </Message>
             )}
           </Row>
@@ -171,7 +212,7 @@ const RegisterBundleScreen = ({ history }) => {
                   className="rounded  signup-bundle-button"
                   disabled={!selectedBundleId}
                 >
-                  To CArt
+                  <FormattedMessage id="registerBundleScreen.toCart" defaultMessage="To Cart" />
                 </Button>
               </Link>
             </Col>
